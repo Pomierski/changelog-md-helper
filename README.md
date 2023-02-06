@@ -32,7 +32,7 @@ yarn changelog:sort
 
 ## Config 
 
-You can find default values for changelog in [default-config.json](https://github.com/Pomierski/xyz/blob/main/src/default-config.json). *Remember that default values will be used for all options that weren't set*
+You can find default values for changelog in [default-config.json](https://github.com/Pomierski/changelog-md-helper/blob/main/src/default-config.json). *Remember that default values will be used for all options that weren't set*
 
 - `vNextTemplate`: This is the string template that will be used to find and represent the next version that is yet to be released.
 

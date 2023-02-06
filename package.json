@@ -1,6 +1,6 @@
 {
-  "name": "release-helper",
-  "version": "1.0.0",
+  "name": "changelog-md-helper",
+  "version": "1.0.1",
   "license": "MIT",
   "dependencies": {
     "colorette": "2.0.19",
@@ -9,7 +9,7 @@
     "prompts": "2.4.2"
   },
   "bin": {
-    "release-helper": "./bin/index.js"
+    "changelog-md-helper": "./bin/index.js"
   },
   "source": "index.ts",
   "main": "bin/index.js",
