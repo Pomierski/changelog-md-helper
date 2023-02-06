@@ -1,0 +1,15 @@
+{
+  "vNextTemplate": "[vNext]",
+  "releaseTemplate": "v$version_placeholder $date_placeholder",
+  "majorTemplate": "[MAJOR]",
+  "minorTemplate": "[MINOR]",
+  "patchTemplate": "[PATCH]",
+  "useRegexInTemplates": false,
+  "parseTemplatesToRegex": false,
+  "dateFormat": "YYYY-MM-DD",
+  "bumpMinorByMajor": false,
+  "bumpMinorByPatch": false,
+  "sortChangelog": true,
+  "changelogPath": "./changelog.md",
+  "displayExampleCommit": true
+}

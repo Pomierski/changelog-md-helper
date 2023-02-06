@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "target": "es2019",
+        "allowSyntheticDefaultImports": true,
+        "moduleResolution": "node",
+        "types": [
+            "jest",
+            "node"
+        ]
+    }
+}
