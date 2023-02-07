@@ -1,4 +1,4 @@
-# [vNext]
+# [v1.0.4] 2023-02-07
 
 - [PATCH] Fix CRLF issue on Mac/Linux
 
