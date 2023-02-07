@@ -44,7 +44,7 @@ const $ab524afc1251b862$export$41c562ebe57d11e2 = (0, $85X2E$commander.program).
 const $b230331649d86c72$export$ac06849afc88652c = "1.0.0";
 const $b230331649d86c72$export$75ee7eed75a3ca85 = "1111-11-11";
 const $b230331649d86c72$export$70f1a05ef05bbe0e = "yyyy-mm-dd";
-const $b230331649d86c72$export$3f045e5308d39dc6 = "./rh-config.json";
+const $b230331649d86c72$export$3f045e5308d39dc6 = "./cmh-config.json";
 
 
 var $486eb4c372e6c705$exports = {};
@@ -60,7 +60,7 @@ const $dbbd2011d5b106ce$var$getConfig = ()=>{
             ...userConfig
         };
     } catch (e) {
-        (0, $8cbd1eaec36e2e6d$export$c7032226c7cf3d7e)("Couldn't read user config, using default config instead...");
+        (0, $8cbd1eaec36e2e6d$export$c7032226c7cf3d7e)(`Couldn't read user config from ${(0, $b230331649d86c72$export$3f045e5308d39dc6)}, using default config instead...`);
     }
     return config;
 };
