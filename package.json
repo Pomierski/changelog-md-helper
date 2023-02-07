@@ -1,6 +1,6 @@
 {
   "name": "changelog-md-helper",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "dependencies": {
     "colorette": "2.0.19",

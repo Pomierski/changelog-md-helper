@@ -30,7 +30,9 @@ yarn changelog:release
 yarn changelog:sort
 ```
 
-## Config 
+Add `cmh-config.json` file to your project.
+
+## Config (cmh-config.json)
 
 You can find default values for changelog in [default-config.json](https://github.com/Pomierski/changelog-md-helper/blob/main/src/default-config.json). *Remember that default values will be used for all options that weren't set*
 

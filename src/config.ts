@@ -26,7 +26,7 @@ const getConfig = (): Config => {
     config = { ...config, ...userConfig };
   } catch (e) {
     displayWarningMessage(
-      "Couldn't read user config, using default config instead..."
+      `Couldn't read user config from ${USER_CONFIG_FILE_PATH}, using default config instead...`
     );
   }
 

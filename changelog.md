@@ -1,3 +1,7 @@
+# [v1.0.3] 2023-02-07
+
+- [PATCH] Change user config filename to `cmh-config.json`
+
 # [v1.0.2] 2023-02-07
 
 - [PATCH] Add missing repository info to package.json.
