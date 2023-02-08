@@ -6,8 +6,13 @@ import { CLIOptions, options } from "./src/cli/options";
 import config from "./src/config";
 import { getReleaseVersion } from "./src/core/getReleaseVersion";
 import { getRequiredChangelogChunks } from "./src/core/getRequiredChangelogChunks";
+import { initUserConfig } from "./src/core/initUserConfig";
 import { writeToChangelog } from "./src/core/writeToChangelog";
 import { getNewChangelogContent } from "./src/getNewChangelogContent";
+
+if (options[CLIOptions.init]) {
+  initUserConfig();
+}
 
 readFile(config.changelogPath, "utf8", async (err, data) => {
   if (err) {
@@ -21,7 +26,7 @@ readFile(config.changelogPath, "utf8", async (err, data) => {
   const requiredChangelogChunks = await getRequiredChangelogChunks(data);
   const releaseVersion = getReleaseVersion(requiredChangelogChunks);
 
-  if (options[CLIOptions.SortOnly]) {
+  if (options[CLIOptions.sortOnly]) {
     await writeToChangelog(requiredChangelogChunks.fullLog);
   }
 

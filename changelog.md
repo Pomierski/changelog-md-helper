@@ -1,5 +1,7 @@
 # [vNext]
 
+- [MINOR] Add --init cli option to initialize config
+
 # [v1.0.4] 2023-02-07
 
 - [PATCH] Fix CRLF issue on Mac/Linux
