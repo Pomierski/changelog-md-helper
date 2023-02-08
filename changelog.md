@@ -1,6 +1,7 @@
 # [vNext]
 
 - [MINOR] Add --init cli option to initialize config
+- [PATCH] Ignore config when --sort-only option is used
 
 # [v1.0.4] 2023-02-07
 
