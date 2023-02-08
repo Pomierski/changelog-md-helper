@@ -4,6 +4,7 @@ var $85X2E$colorette = require("colorette");
 var $85X2E$commander = require("commander");
 var $85X2E$process = require("process");
 var $85X2E$prompts = require("prompts");
+var $85X2E$path = require("path");
 var $85X2E$dayjs = require("dayjs");
 
 function $parcel$interopDefault(a) {
@@ -32,9 +33,11 @@ const $8cbd1eaec36e2e6d$export$94593080f38cba85 = (message)=>{
 
 let $ab524afc1251b862$export$edaba8d4c8315ba9;
 (function(CLIOptions) {
-    CLIOptions["SortOnly"] = "sortOnly";
+    CLIOptions["sortOnly"] = "sortOnly";
+    CLIOptions["init"] = "init";
 })($ab524afc1251b862$export$edaba8d4c8315ba9 || ($ab524afc1251b862$export$edaba8d4c8315ba9 = {}));
 (0, $85X2E$commander.program).option("-so, --sort-only");
+(0, $85X2E$commander.program).option("-i, --init");
 (0, $85X2E$commander.program).parse();
 const $ab524afc1251b862$export$41c562ebe57d11e2 = (0, $85X2E$commander.program).opts();
 
@@ -155,6 +158,11 @@ const $ef2f1bb1617f407c$export$81c6f82fa2331919 = (changelogChunks)=>{
 
 
 
+const $2029d5c9987de623$export$ca4069fd3303f42c = ()=>(0, $dbbd2011d5b106ce$export$2e2bcd8739ae039).sortChangelog || (0, $ab524afc1251b862$export$41c562ebe57d11e2)[(0, $ab524afc1251b862$export$edaba8d4c8315ba9).sortOnly];
+
+
+
+
 
 
 
@@ -258,21 +266,41 @@ const $359d2f9e44af69a7$export$62f2192059252b2f = (vNext)=>{
 
 
 const $ce9b4c382e4e132f$export$c9f33bc612d5c4ef = async (changelogData)=>{
+    const isSortEnabled = (0, $2029d5c9987de623$export$ca4069fd3303f42c)();
     const lines = changelogData.split("\n");
     const vNextIndex = lines.findIndex((line)=>(0, $d1aa033ea3d13926$export$81a4d685968e6dfc)((0, $dbbd2011d5b106ce$export$2e2bcd8739ae039).vNextTemplate, line));
     if (vNextIndex === -1) await (0, $3d3691e1ce0b849e$export$a938f0c8ea4b7535)(changelogData);
     const latestReleaseTemplate = (0, $dbbd2011d5b106ce$export$2e2bcd8739ae039).releaseTemplate.replace((0, $02461ac332dfcb29$export$61f88f9e23a8bfec).version, (0, $b230331649d86c72$export$ac06849afc88652c)).replace((0, $02461ac332dfcb29$export$61f88f9e23a8bfec).date, (0, $dbbd2011d5b106ce$export$2e2bcd8739ae039).dateFormat.replace(/[A-Za-z0-9]/g, "1"));
     const latestReleaseIndex = lines.findIndex((line)=>line.match((0, $44498b34709b50cb$export$e94232959a208181)(latestReleaseTemplate)));
     const vNextChunk = lines.slice(vNextIndex, latestReleaseIndex);
-    const vNext = (0, $dbbd2011d5b106ce$export$2e2bcd8739ae039).sortChangelog ? (0, $359d2f9e44af69a7$export$62f2192059252b2f)(vNextChunk) : vNextChunk;
+    const vNext = isSortEnabled ? (0, $359d2f9e44af69a7$export$62f2192059252b2f)(vNextChunk) : vNextChunk;
     return {
         vNext: vNext,
         latestReleaseHeader: lines[latestReleaseIndex],
-        fullLog: (0, $dbbd2011d5b106ce$export$2e2bcd8739ae039).sortChangelog ? [
+        fullLog: isSortEnabled ? [
             ...vNext,
             ...lines.slice(latestReleaseIndex)
         ].join("\n") : changelogData
     };
+};
+
+
+
+
+
+
+var $4cb50afcc76d1a62$var$$parcel$__dirname = $85X2E$path.resolve(__dirname, "../src/core");
+const $4cb50afcc76d1a62$var$defaultConfigPath = (0, ($parcel$interopDefault($85X2E$path))).join($4cb50afcc76d1a62$var$$parcel$__dirname, "../default-config.json");
+const $4cb50afcc76d1a62$export$7feaa9fb23da69a4 = ()=>{
+    (0, $85X2E$fs.copyFile)($4cb50afcc76d1a62$var$defaultConfigPath, "./cmh-config.json", (err)=>{
+        if (err) {
+            console.error(err);
+            (0, $8cbd1eaec36e2e6d$export$4ec46b9b3cbfa90d)("Couldn't initialize config.");
+            process.exit(1);
+        }
+        (0, $8cbd1eaec36e2e6d$export$8584db4328e417e4)("Initialized cmh-config.json");
+        process.exit();
+    });
 };
 
 
@@ -305,6 +333,7 @@ const $e9c53ff4f741c35a$export$eb72eb17eaa79c14 = (data, version)=>{
 };
 
 
+if ((0, $ab524afc1251b862$export$41c562ebe57d11e2)[(0, $ab524afc1251b862$export$edaba8d4c8315ba9).init]) (0, $4cb50afcc76d1a62$export$7feaa9fb23da69a4)();
 (0, $85X2E$fs.readFile)((0, $dbbd2011d5b106ce$export$2e2bcd8739ae039).changelogPath, "utf8", async (err, data)=>{
     if (err) {
         (0, $8cbd1eaec36e2e6d$export$4ec46b9b3cbfa90d)(`Couldn't find or read ${(0, $dbbd2011d5b106ce$export$2e2bcd8739ae039).changelogPath}. Check your config`);
@@ -313,7 +342,7 @@ const $e9c53ff4f741c35a$export$eb72eb17eaa79c14 = (data, version)=>{
     }
     const requiredChangelogChunks = await (0, $ce9b4c382e4e132f$export$c9f33bc612d5c4ef)(data);
     const releaseVersion = (0, $ef2f1bb1617f407c$export$81c6f82fa2331919)(requiredChangelogChunks);
-    if ((0, $ab524afc1251b862$export$41c562ebe57d11e2)[(0, $ab524afc1251b862$export$edaba8d4c8315ba9).SortOnly]) await (0, $311b7d6d8e55fe72$export$227034c7a00fd68)(requiredChangelogChunks.fullLog);
+    if ((0, $ab524afc1251b862$export$41c562ebe57d11e2)[(0, $ab524afc1251b862$export$edaba8d4c8315ba9).sortOnly]) await (0, $311b7d6d8e55fe72$export$227034c7a00fd68)(requiredChangelogChunks.fullLog);
     await (0, $311b7d6d8e55fe72$export$227034c7a00fd68)((0, $e9c53ff4f741c35a$export$eb72eb17eaa79c14)(requiredChangelogChunks.fullLog, releaseVersion));
 });
 
