@@ -1,10 +1,12 @@
 import { program } from "commander";
 
 export enum CLIOptions {
-  SortOnly = "sortOnly",
+  sortOnly = "sortOnly",
+  init = "init"
 }
 
 program.option("-so, --sort-only");
+program.option("-i, --init");
 
 program.parse();
 

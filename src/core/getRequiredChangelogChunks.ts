@@ -2,6 +2,7 @@ import config from "../config";
 import { GENERIC_VERSION } from "../constants";
 import { ConfigPlaceholder } from "../types/configPlaceholder";
 import { getComparsionForTemplate } from "../utils/getComparsionForTemplate";
+import { getIsSortEnabled } from "../utils/getIsSortEnabled";
 import { parseTextToRegex } from "../utils/parseTextToRegex";
 import { promptAddVNext } from "./promptAddVNext";
 import { sortChangelog } from "./sortChangelog";
@@ -15,6 +16,7 @@ export interface ChangelogChunks {
 export const getRequiredChangelogChunks = async (
   changelogData: string
 ): Promise<ChangelogChunks> => {
+  const isSortEnabled = getIsSortEnabled();
   const lines = changelogData.split("\n");
 
   const vNextIndex = lines.findIndex((line) =>
@@ -37,12 +39,12 @@ export const getRequiredChangelogChunks = async (
   );
 
   const vNextChunk = lines.slice(vNextIndex, latestReleaseIndex);
-  const vNext = config.sortChangelog ? sortChangelog(vNextChunk) : vNextChunk;
+  const vNext = isSortEnabled ? sortChangelog(vNextChunk) : vNextChunk;
 
   return {
     vNext,
     latestReleaseHeader: lines[latestReleaseIndex],
-    fullLog: config.sortChangelog
+    fullLog: isSortEnabled
       ? [...vNext, ...lines.slice(latestReleaseIndex)].join("\n")
       : changelogData,
   };

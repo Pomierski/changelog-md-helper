@@ -8,14 +8,20 @@ By using this library, developers can save time and reduce the risk of manual er
 
 ## Usage
 
-Add changelog helper to your dependencies
+### Add changelog helper to your dependencies
 
 ```js
 npm install --save-dev changelog-md-helper
+// or
 yarn add --dev changelog-md-helper
 ```
 
-Add changelog helper as your package.json script
+### Initialize config
+```js
+npx changelog-md-helper --init
+```
+
+### Add changelog helper as your package.json script
 
 ```json
 "scripts": {
@@ -24,21 +30,23 @@ Add changelog helper as your package.json script
 }
 ```
 
+### Now you can use
+
 ```ts
 yarn changelog:release
 // or
 yarn changelog:sort
 ```
 
-Add `cmh-config.json` file to your project.
-
 ## Config (cmh-config.json)
 
 You can find default values for changelog in [default-config.json](https://github.com/Pomierski/changelog-md-helper/blob/main/src/default-config.json). *Remember that default values will be used for all options that weren't set*
 
-- `vNextTemplate`: This is the string template that will be used to find and represent the next version that is yet to be released.
+- `vNextTemplate`: This is the string template that will be used to replace it with the next version.
 
 - `releaseTemplate`: This is the string template that will be used to represent a released version, with $version_placeholder to be replaced by the version number and $date_placeholder to be replaced by the release date.
+
+    - if your release header is e.g (v1.0.0) released 2023-03-03, then set your release header to `(v$version_placeholder) released $date_placeholder`
 
 - `majorTemplate`: This is the string template that will be used to find a major version change in the changelog.
 
@@ -67,6 +75,7 @@ You can find default values for changelog in [default-config.json](https://githu
 
 - `[-so, --sort-only]` option allows the user to sort the changelog without setting a new version header. This option is meant for situations where the user wants to reorganize the existing entries in the changelog, but does not want to release a new version.
 
+- `[-i, --init]` option allows the user to initialize default config.
 
 ### Special thanks
   
