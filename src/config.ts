@@ -1,5 +1,6 @@
 import { readFileSync } from "fs";
 import { displayWarningMessage } from "./cli/cliMessages";
+import { CLIOptions, options } from "./cli/options";
 import { USER_CONFIG_FILE_PATH } from "./constants";
 import defaultConfig from "./default-config.json";
 
@@ -25,6 +26,9 @@ const getConfig = (): Config => {
     const userConfig = JSON.parse(readFileSync(USER_CONFIG_FILE_PATH, "utf-8"));
     config = { ...config, ...userConfig };
   } catch (e) {
+    if (options[CLIOptions.versionOnly]) {
+      return config;
+    }
     displayWarningMessage(
       `Couldn't read user config from ${USER_CONFIG_FILE_PATH}, using default config instead...`
     );

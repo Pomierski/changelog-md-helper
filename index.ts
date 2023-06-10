@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { readFile } from "fs";
+import { stdout } from "node:process";
 import { displayFormattedError } from "./src/cli/cliMessages";
 import { CLIOptions, options } from "./src/cli/options";
 import config from "./src/config";
@@ -28,6 +29,12 @@ readFile(config.changelogPath, "utf8", async (err, data) => {
 
   if (options[CLIOptions.sortOnly]) {
     await writeToChangelog(requiredChangelogChunks.fullLog);
+  }
+
+  if (options[CLIOptions.versionOnly]) {
+    stdout.write(releaseVersion);
+
+    return;
   }
 
   await writeToChangelog(
