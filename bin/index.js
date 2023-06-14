@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 var $85X2E$fs = require("fs");
+var $85X2E$nodeprocess = require("node:process");
 var $85X2E$colorette = require("colorette");
 var $85X2E$commander = require("commander");
 var $85X2E$process = require("process");
@@ -10,6 +11,7 @@ var $85X2E$dayjs = require("dayjs");
 function $parcel$interopDefault(a) {
   return a && a.__esModule ? a.default : a;
 }
+
 
 
 const $8cbd1eaec36e2e6d$var$addNewLine = (...message)=>[
@@ -35,11 +37,14 @@ let $ab524afc1251b862$export$edaba8d4c8315ba9;
 (function(CLIOptions) {
     CLIOptions["sortOnly"] = "sortOnly";
     CLIOptions["init"] = "init";
+    CLIOptions["versionOnly"] = "versionOnly";
 })($ab524afc1251b862$export$edaba8d4c8315ba9 || ($ab524afc1251b862$export$edaba8d4c8315ba9 = {}));
 (0, $85X2E$commander.program).option("-so, --sort-only");
 (0, $85X2E$commander.program).option("-i, --init");
+(0, $85X2E$commander.program).option("-vo, --version-only");
 (0, $85X2E$commander.program).parse();
 const $ab524afc1251b862$export$41c562ebe57d11e2 = (0, $85X2E$commander.program).opts();
+
 
 
 
@@ -51,7 +56,7 @@ const $b230331649d86c72$export$3f045e5308d39dc6 = "./cmh-config.json";
 
 
 var $486eb4c372e6c705$exports = {};
-$486eb4c372e6c705$exports = JSON.parse('{"vNextTemplate":"[vNext]","releaseTemplate":"v$version_placeholder $date_placeholder","majorTemplate":"[MAJOR]","minorTemplate":"[MINOR]","patchTemplate":"[PATCH]","useRegexInTemplates":false,"parseTemplatesToRegex":false,"dateFormat":"YYYY-MM-DD","bumpMinorByMajor":false,"bumpMinorByPatch":false,"sortChangelog":true,"changelogPath":"./changelog.md","displayExampleCommit":true}');
+$486eb4c372e6c705$exports = JSON.parse('{"vNextTemplate":"[vNext]","releaseTemplate":"# [v$version_placeholder] $date_placeholder","majorTemplate":"[MAJOR]","minorTemplate":"[MINOR]","patchTemplate":"[PATCH]","useRegexInTemplates":false,"parseTemplatesToRegex":false,"dateFormat":"YYYY-MM-DD","bumpMinorByMajor":false,"bumpMinorByPatch":false,"sortChangelog":true,"changelogPath":"./changelog.md","displayExampleCommit":true}');
 
 
 const $dbbd2011d5b106ce$var$getConfig = ()=>{
@@ -63,6 +68,7 @@ const $dbbd2011d5b106ce$var$getConfig = ()=>{
             ...userConfig
         };
     } catch (e) {
+        if ((0, $ab524afc1251b862$export$41c562ebe57d11e2)[(0, $ab524afc1251b862$export$edaba8d4c8315ba9).versionOnly]) return config;
         (0, $8cbd1eaec36e2e6d$export$c7032226c7cf3d7e)(`Couldn't read user config from ${(0, $b230331649d86c72$export$3f045e5308d39dc6)}, using default config instead...`);
     }
     return config;
@@ -343,6 +349,10 @@ if ((0, $ab524afc1251b862$export$41c562ebe57d11e2)[(0, $ab524afc1251b862$export$
     const requiredChangelogChunks = await (0, $ce9b4c382e4e132f$export$c9f33bc612d5c4ef)(data);
     const releaseVersion = (0, $ef2f1bb1617f407c$export$81c6f82fa2331919)(requiredChangelogChunks);
     if ((0, $ab524afc1251b862$export$41c562ebe57d11e2)[(0, $ab524afc1251b862$export$edaba8d4c8315ba9).sortOnly]) await (0, $311b7d6d8e55fe72$export$227034c7a00fd68)(requiredChangelogChunks.fullLog);
+    if ((0, $ab524afc1251b862$export$41c562ebe57d11e2)[(0, $ab524afc1251b862$export$edaba8d4c8315ba9).versionOnly]) {
+        (0, $85X2E$nodeprocess.stdout).write(releaseVersion);
+        return;
+    }
     await (0, $311b7d6d8e55fe72$export$227034c7a00fd68)((0, $e9c53ff4f741c35a$export$eb72eb17eaa79c14)(requiredChangelogChunks.fullLog, releaseVersion));
 });
 

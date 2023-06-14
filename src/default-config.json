@@ -1,6 +1,6 @@
 {
   "vNextTemplate": "[vNext]",
-  "releaseTemplate": "v$version_placeholder $date_placeholder",
+  "releaseTemplate": "# [v$version_placeholder] $date_placeholder",
   "majorTemplate": "[MAJOR]",
   "minorTemplate": "[MINOR]",
   "patchTemplate": "[PATCH]",
