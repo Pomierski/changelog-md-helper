@@ -1,5 +1,5 @@
 import { displayFormattedError } from "../cli/cliMessages";
-import config from "../config";
+import config, { Config } from "../config";
 import { getComparsionForTemplate } from "../utils/getComparsionForTemplate";
 import { getIsDateBeforeVersion } from "../utils/getIsDateBeforeVersion";
 import { versionRegexGlobal } from "../utils/utils";
@@ -11,12 +11,16 @@ export interface Version {
   patch: number;
 }
 
-const getUpdatedVersion = (version: Version, bump: keyof Version): string => {
+const getUpdatedVersion = (
+  version: Version,
+  bump: keyof Version,
+  loadedConfig: Config = config
+): string => {
   const nextVersion = { ...version };
 
-  if (config.bumpMinorByMajor && bump === "major") {
+  if (loadedConfig.bumpMinorByMajor && bump === "major") {
     bump = "minor";
-  } else if (config.bumpMinorByPatch && bump === "patch") {
+  } else if (loadedConfig.bumpMinorByPatch && bump === "patch") {
     bump = "minor";
   }
 
@@ -33,8 +37,11 @@ const getUpdatedVersion = (version: Version, bump: keyof Version): string => {
   return Object.values(nextVersion).join(".");
 };
 
-export const getReleaseVersion = (changelogChunks: ChangelogChunks): string => {
-  const dateFormatIncludesDots = config.dateFormat.includes(".");
+export const getReleaseVersion = (
+  changelogChunks: ChangelogChunks,
+  loadedConfig: Config = config
+): string => {
+  const dateFormatIncludesDots = loadedConfig.dateFormat.includes(".");
   const correctVersionIndex =
     dateFormatIncludesDots && getIsDateBeforeVersion() ? 1 : 0;
 
@@ -70,7 +77,7 @@ export const getReleaseVersion = (changelogChunks: ChangelogChunks): string => {
   };
 
   const majorFound = changelogChunks.vNext.find((line) =>
-    getComparsionForTemplate(config.majorTemplate, line)
+    getComparsionForTemplate(loadedConfig.majorTemplate, line)
   );
 
   if (majorFound) {
@@ -78,7 +85,7 @@ export const getReleaseVersion = (changelogChunks: ChangelogChunks): string => {
   }
 
   const minorFound = changelogChunks.vNext.find((line) =>
-    getComparsionForTemplate(config.minorTemplate, line)
+    getComparsionForTemplate(loadedConfig.minorTemplate, line)
   );
 
   if (minorFound) {
@@ -86,7 +93,7 @@ export const getReleaseVersion = (changelogChunks: ChangelogChunks): string => {
   }
 
   const patchFound = changelogChunks.vNext.find((line) =>
-    getComparsionForTemplate(config.patchTemplate, line)
+    getComparsionForTemplate(loadedConfig.patchTemplate, line)
   );
 
   if (patchFound) {

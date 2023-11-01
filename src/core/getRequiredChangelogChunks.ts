@@ -1,4 +1,4 @@
-import config from "../config";
+import config, { Config } from "../config";
 import { GENERIC_VERSION } from "../constants";
 import { ConfigPlaceholder } from "../types/configPlaceholder";
 import { getComparsionForTemplate } from "../utils/getComparsionForTemplate";
@@ -14,24 +14,26 @@ export interface ChangelogChunks {
 }
 
 export const getRequiredChangelogChunks = async (
-  changelogData: string
+  changelogData: string,
+  loadedConfig: Config = config,
+  skipOptionalTasks?: boolean
 ): Promise<ChangelogChunks> => {
   const isSortEnabled = getIsSortEnabled();
   const lines = changelogData.split("\n");
 
   const vNextIndex = lines.findIndex((line) =>
-    getComparsionForTemplate(config.vNextTemplate, line)
+    getComparsionForTemplate(loadedConfig.vNextTemplate, line)
   );
 
   if (vNextIndex === -1) {
     await promptAddVNext(changelogData);
   }
 
-  const latestReleaseTemplate = config.releaseTemplate
+  const latestReleaseTemplate = loadedConfig.releaseTemplate
     .replace(ConfigPlaceholder.version, GENERIC_VERSION)
     .replace(
       ConfigPlaceholder.date,
-      config.dateFormat.replace(/[A-Za-z0-9]/g, "1")
+      loadedConfig.dateFormat.replace(/[A-Za-z0-9]/g, "1")
     );
 
   const latestReleaseIndex = lines.findIndex((line) =>
@@ -39,7 +41,10 @@ export const getRequiredChangelogChunks = async (
   );
 
   const vNextChunk = lines.slice(vNextIndex, latestReleaseIndex);
-  const vNext = isSortEnabled ? sortChangelog(vNextChunk) : vNextChunk;
+  const vNext =
+    isSortEnabled && !skipOptionalTasks
+      ? sortChangelog(vNextChunk)
+      : vNextChunk;
 
   return {
     vNext,
